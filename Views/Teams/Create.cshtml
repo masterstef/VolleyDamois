@@ -1,0 +1,224 @@
+﻿@model VolleyDamois.Models.Team
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Inscription d'une équipe</h1>
+<hr />
+<div class="flex-column">
+
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="TeamName" class="control-label"></label>
+            <input asp-for="TeamName" class="form-control" />
+            <span asp-validation-for="TeamName" class="text-danger"></span>
+        </div>
+        <label class="control-label">Catégorie</label>
+        <select asp-for="@Model.Category.Category" id="cat" class="form-control" onchange="CategorySelected()">
+            <option value="@(Category.Nationale)" selected>Nationale</option>
+            <option value="@(Category.Provinciale)">Provinciale</option>
+            <option value="@(Category.Loisir)">Loisir</option>
+        </select>
+        <div class="row bg-dark text-white">
+            <label class="control-label">Réservistes</label>
+            <button type="button" class="ReservisteButtonAdd btn btn-primary bg-success" onclick="AddReservist()"> + </button>
+            <button type="button" class="ReservisteButtonRemove btn btn-primary bg-danger" onclick="RemoveReservist()"> - </button>
+        </div>
+
+        <div class="row">
+            @{
+                for (int i = 0; i < 6; i++)
+                {
+                    <div class="Player bg-dark text-white col mb-2 shadow-sm">
+                        @{
+                            if (i == 0)
+                            {
+                                <p>Capitaine</p>
+                            }
+                            else
+                            {
+                                int nbPly = i + 1;
+                                <p>Joueur @nbPly</p>
+
+                            }
+                        }
+
+                        <div class="form-group">
+                            <label asp-for="@Model.Players[i].Name" class="control-label">Nom</label>
+                            <input asp-for="@Model.Players[i].Name" required class="form-control" />
+                            <span asp-validation-for="@Model.Players[i].Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Players[i].LastName" class="control-label">Prénom</label>
+                            <input asp-for="@Model.Players[i].LastName" required class="form-control" />
+                            <span asp-validation-for="@Model.Players[i].LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Players[i].NumMember" class="control-label">Numéro de Membre</label>
+                            <input asp-for="@Model.Players[i].NumMember" required class="form-control" />
+                            <span asp-validation-for="@Model.Players[i].NumMember" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Players[i].Adress" class="control-label">Adresse</label>
+                            <input asp-for="@Model.Players[i].Adress" required class="form-control" />
+                            <span asp-validation-for="@Model.Players[i].Adress" class="text-danger"></span>
+                        </div>
+                        @{
+                            if (i == 0)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="@Model.Players[i].Email" class="control-label"></label>
+                                    <input asp-for="@Model.Players[i].Email" type="email" class="form-control" required/>
+                                    <span asp-validation-for="@Model.Players[i].Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Players[i].TelNumber" class="control-label">Numéro de téléphone</label>
+                                    <input asp-for="@Model.Players[i].TelNumber" class="form-control" required />
+                                    <span asp-validation-for="@Model.Players[i].TelNumber" class="text-danger"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <label asp-for="@Model.Players[i].Email" class="control-label"></label>
+                                    <input asp-for="@Model.Players[i].Email" type="email" class="form-control" />
+                                    <span asp-validation-for="@Model.Players[i].Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="@Model.Players[i].TelNumber" class="control-label">Numéro de téléphone</label>
+                                    <input asp-for="@Model.Players[i].TelNumber" class="form-control" />
+                                    <span asp-validation-for="@Model.Players[i].TelNumber" class="text-danger"></span>
+                                </div>
+                            }
+                        }
+                        <div class="form-check form-check-inline">
+                            <label asp-for="@Model.Players[i].Sex.Sexe" class="control-label">Homme</label>
+                            <input asp-for="@Model.Players[i].Sex.Sexe" class="form-check-input" type="radio" id="Homme" required value="@Sexe.homme" />
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label asp-for="@Model.Players[i].Sex.Sexe" class="control-label">Femme</label>
+                            <input asp-for="@Model.Players[i].Sex.Sexe" class="form-check-input" type="radio" id="Femme" required value="@Sexe.femme" />
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+        @section Scripts{
+            <script>
+                var nbReservist = 0
+                init()
+
+                function init() {
+                    HideAndDisable(3)
+                    HideAndDisable(4)
+                    HideAndDisable(5)
+                    HideAndDisableRemoveButton()
+                }
+
+              
+                function AddReservist() {
+                    nbReservist++
+                    var category = document.getElementById("cat")
+                    var categorieStr = category.options[category.selectedIndex].text
+                    if (categorieStr === "Nationale") {
+                        ShowAndEnable(2 + nbReservist)
+                        HideAndDisableAddButton()
+                    } else {
+                        ShowAndEnable(3 + nbReservist)
+                        if (nbReservist === 2) {
+                            HideAndDisableAddButton()
+                        }
+                    }
+                    ShowAndEnableRemoveButton()
+                }
+
+                function RemoveReservist() {
+                    var category = document.getElementById("cat")
+                    var categorieStr = category.options[category.selectedIndex].text
+                    if (categorieStr === "Nationale") {
+                        HideAndDisable(2 + nbReservist)
+                        ShowAndEnableAddButton()
+                    } else {
+                        HideAndDisable(3 + nbReservist)
+                    }
+                    nbReservist--
+                    if (nbReservist <= 0) {
+                        HideAndDisableRemoveButton()
+                    }
+                    ShowAndEnableAddButton()
+                }
+
+                function CategorySelected() {
+                    nbReservist = 0
+                    HideAndDisableRemoveButton()
+                    ShowAndEnableAddButton()
+                    var category = document.getElementById("cat")
+                    var categorieStr = category.options[category.selectedIndex].text
+                    console.log(categorieStr)
+                    if (categorieStr === "Nationale") {
+                        ShowAndEnable(0)
+                        ShowAndEnable(1)
+                        ShowAndEnable(2)
+                        HideAndDisable(3)
+                        HideAndDisable(4)
+                        HideAndDisable(5)
+
+                    } else {
+                        ShowAndEnable(0)
+                        ShowAndEnable(1)
+                        ShowAndEnable(2)
+                        ShowAndEnable(3)
+                        HideAndDisable(4)
+                        HideAndDisable(5)
+                    }
+                }
+
+                function HideAndDisableAddButton() {
+                    //$(".ReservisteButtonAdd").eq(0).hide()
+                    $(".ReservisteButtonAdd").eq(0).attr("disabled", true)
+                }
+
+                function HideAndDisable(i) {
+                    //$(".Player").eq(i).hide()
+                    $(".Player").eq(i).find("input").attr("disabled", true)
+                }
+
+                function HideAndDisableRemoveButton() {
+                   // $(".ReservisteButtonRemove").eq(0).hide()
+                    $(".ReservisteButtonRemove").eq(0).attr("disabled", true)
+                }
+
+                function ShowAndEnableRemoveButton() {
+                    $(".ReservisteButtonRemove").eq(0).show()
+                    $(".ReservisteButtonRemove").eq(0).attr("disabled", false)
+                }
+
+                function ShowAndEnableAddButton() {
+                    $(".ReservisteButtonAdd").eq(0).show()
+                    $(".ReservisteButtonAdd").eq(0).attr("disabled", false)
+                }
+
+                function ShowAndEnable(i) {
+                    $(".Player").eq(i).show()
+                    $(".Player").eq(i).find("input").attr("disabled", false)
+                }
+
+
+            </script>
+
+        }
+
+    </form>
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
