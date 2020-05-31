@@ -13,22 +13,23 @@ namespace VolleyDamois.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
+        public HomeController(ILogger<HomeController> logger) {
             _logger = logger;
         }
 
+        [ResponseCache(Duration = 60*60*25, Location = ResponseCacheLocation.Any , NoStore = false)]
         public IActionResult Index()
         {
             return View();
         }
 
+        [ResponseCache(Duration = 60 * 60 * 25, Location = ResponseCacheLocation.Any, NoStore = false)]
         public IActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 60 * 60 * 25, Location = ResponseCacheLocation.Any, NoStore = false)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

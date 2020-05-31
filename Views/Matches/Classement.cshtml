@@ -1,0 +1,107 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model VolleyDamois.Models.ViewModel.ViewModelClassement
+@{
+    ViewData["Title"] = "Classement";
+}
+
+    <button class="btn-primary border-0 row float-right" onclick="printJS({
+    printable: 'pdf',
+    type: 'html',
+    documentTitle: title,
+    scanStyles: false,
+    style: 'td, th { border-style: solid; border-width: thin; text-align: center; } h4, table, { width: 40px}, .notBreak{page-break-inside: avoid;}'})">
+        <svg class="m-2" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 1h5v1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6h1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" />
+            <path d="M9 4.5V1l5 5h-3.5A1.5 1.5 0 0 1 9 4.5z" />
+            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+        </svg>
+    </button>
+    <div class="pdf">
+
+        <h1>Classement</h1>
+
+        <div>
+            <label class="control-label">Classement pour :</label>
+            <select onchange="DayHasChanged()">
+                <option selected>Jour 1</option>
+                <option>Jour 2</option>
+            </select>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form asp-action="CreateMatchDay2">
+                    <button class="btn-primary">Creér les match pour le jour 2</button>
+                </form>
+            }
+            <div id="day1">
+                @{
+                    int i = 1;
+                    foreach (var c1 in Model.classementDay1)
+                    {
+                        <h2>Poule @i</h2>
+                        <table class="table table-dark table-striped ">
+                            <thead>
+                            <th scope="col">Place</th>
+                            <th scope="col">Equipe</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">Pour</th>
+                            <th scope="col">Contre</th>
+                            </thead>
+                            <tbody>
+
+                                @{int place = 1; }
+                                @foreach (Team team in c1.Keys)
+                                {
+
+                                    <tr>
+                                        <td>@place</td>
+                                        <td>@team.TeamName</td>
+                                        <td>@c1[team][0]</td>
+                                        <td>@c1[team][1]</td>
+                                        <td>@c1[team][2]</td>
+                                    </tr>
+                                    place++;
+                                }
+
+                            </tbody>
+                        </table>
+                        i++;
+                    }
+                }
+            </div>
+            <div id="day2">
+                @{
+                    var keys = Model.classementDay2.Keys.ToList();
+                    keys.Remove(LevelMatch.Poule);
+                    foreach (var LevelKey in keys)
+                    {
+                        <h2>@LevelKey</h2>
+                        <table class="table table-dark table-striped ">
+                            <thead>
+                            <th>Equipe Victorieuses</th>
+                            </thead>
+                            <tbody>
+                                @foreach (Team team in Model.classementDay2[LevelKey])
+                                {
+                                    <tr>
+                                        <td>@team.TeamName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        i++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+@section Scripts{
+    <script src="~/js/daySwitchButton.js"></script>
+    <script src="~/js/print.min.js"></script>
+}
+
+
+
+

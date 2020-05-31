@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +21,19 @@ namespace VolleyDamois.Controllers
         }
 
         // GET: Teams
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String search = "")
         {
-            return View(await _context.Team.ToListAsync());
+            @ViewBag.CurrentFilter = search;
+            var teamList = await _context.Team
+                .Include(t=> t.Players)
+                .Include(t=>t.Category)
+                .ToListAsync();
+            if(search != "" && search != null){
+                 teamList = teamList.Where(t => t.TeamName.ToLower().Contains(search.ToLower())).ToList();
+            }
+            return View(teamList);
         }
-
-        // GET: Teams/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,6 +42,8 @@ namespace VolleyDamois.Controllers
             }
 
             var team = await _context.Team
+                .Include(t=> t.Players).ThenInclude(p => p.Sex)
+                .Include(t => t.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (team == null)
             {
@@ -55,6 +66,8 @@ namespace VolleyDamois.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TeamName,Category,Players")] Team team)
         {
+            team.Category = _context.Categories.Where(c => c.Category == team.Category.Category).First();
+            team.Players.ForEach( p => p.Sex = _context.Sex.Where(s => s.Sexe == p.Sex.Sexe).First());
             if (ModelState.IsValid)
             {
                 _context.Add(team);
@@ -87,6 +100,7 @@ namespace VolleyDamois.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("TeamName")] Team team)
         {
             if (id != team.Id)
@@ -118,6 +132,7 @@ namespace VolleyDamois.Controllers
         }
 
         // GET: Teams/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,12 +153,22 @@ namespace VolleyDamois.Controllers
         // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var team = await _context.Team.FindAsync(id);
             _context.Team.Remove(team);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [Produces("application/json")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchName()
+        {
+            string term = HttpContext.Request.Query["searchName"].ToString();
+            var list = await _context.Team.Where(t => t.TeamName.Contains(term)).Select(t => t.TeamName).ToListAsync();
+            return Ok(list);
         }
 
         private bool TeamExists(int id)

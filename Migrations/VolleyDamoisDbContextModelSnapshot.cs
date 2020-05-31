@@ -19,6 +19,202 @@ namespace VolleyDamois.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("VolleyDamois.Models.Categories", b =>
                 {
                     b.Property<int>("Id")
@@ -51,6 +247,189 @@ namespace VolleyDamois.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VolleyDamois.Models.Field", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FieldCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldCategoryId");
+
+                    b.ToTable("Field");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FieldCategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FieldCategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FieldCategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FieldCategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FieldCategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FieldCategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            FieldCategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            FieldCategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            FieldCategoryId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            FieldCategoryId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            FieldCategoryId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            FieldCategoryId = 3
+                        });
+                });
+
+            modelBuilder.Entity("VolleyDamois.Models.Level", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LevelConfrotation")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Level");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LevelConfrotation = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LevelConfrotation = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LevelConfrotation = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LevelConfrotation = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LevelConfrotation = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            LevelConfrotation = 5
+                        });
+                });
+
+            modelBuilder.Entity("VolleyDamois.Models.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ArbitreId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Team1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Team1Set1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Team1Set2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Team2Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Team2Set1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Team2Set2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TerrainId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("levelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArbitreId");
+
+                    b.HasIndex("StateId");
+
+                    b.HasIndex("Team1Id");
+
+                    b.HasIndex("Team2Id");
+
+                    b.HasIndex("TerrainId");
+
+                    b.HasIndex("levelId");
+
+                    b.ToTable("Matches");
+                });
+
             modelBuilder.Entity("VolleyDamois.Models.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -76,7 +455,7 @@ namespace VolleyDamois.Migrations
                     b.Property<int>("NumMember")
                         .HasColumnType("int");
 
-                    b.Property<int>("SexId")
+                    b.Property<int?>("SexId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TeamId")
@@ -92,6 +471,407 @@ namespace VolleyDamois.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("Player");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "D",
+                            Name = "C",
+                            NumMember = 2,
+                            SexId = 1,
+                            TeamId = 1,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Adress = "Rue",
+                            LastName = "E",
+                            Name = "D",
+                            NumMember = 3,
+                            SexId = 1,
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Adress = "Rue",
+                            LastName = "F",
+                            Name = "E",
+                            NumMember = 4,
+                            SexId = 2,
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "G",
+                            Name = "F",
+                            NumMember = 5,
+                            SexId = 1,
+                            TeamId = 2,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Adress = "Rue",
+                            LastName = "H",
+                            Name = "G",
+                            NumMember = 6,
+                            SexId = 1,
+                            TeamId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Adress = "Rue",
+                            LastName = "I",
+                            Name = "H",
+                            NumMember = 7,
+                            SexId = 2,
+                            TeamId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "J",
+                            Name = "I",
+                            NumMember = 8,
+                            SexId = 1,
+                            TeamId = 3,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Adress = "Rue",
+                            LastName = "K",
+                            Name = "J",
+                            NumMember = 9,
+                            SexId = 1,
+                            TeamId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Adress = "Rue",
+                            LastName = "L",
+                            Name = "K",
+                            NumMember = 10,
+                            SexId = 2,
+                            TeamId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "M",
+                            Name = "L",
+                            NumMember = 11,
+                            SexId = 1,
+                            TeamId = 4,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Adress = "Rue",
+                            LastName = "N",
+                            Name = "M",
+                            NumMember = 12,
+                            SexId = 1,
+                            TeamId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Adress = "Rue",
+                            LastName = "O",
+                            Name = "N",
+                            NumMember = 13,
+                            SexId = 2,
+                            TeamId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "P",
+                            Name = "O",
+                            NumMember = 14,
+                            SexId = 1,
+                            TeamId = 5,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Adress = "Rue",
+                            LastName = "Q",
+                            Name = "P",
+                            NumMember = 15,
+                            SexId = 1,
+                            TeamId = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Adress = "Rue",
+                            LastName = "R",
+                            Name = "Q",
+                            NumMember = 16,
+                            SexId = 2,
+                            TeamId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "S",
+                            Name = "R",
+                            NumMember = 17,
+                            SexId = 1,
+                            TeamId = 6,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Adress = "Rue",
+                            LastName = "T",
+                            Name = "S",
+                            NumMember = 18,
+                            SexId = 1,
+                            TeamId = 6
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Adress = "Rue",
+                            LastName = "U",
+                            Name = "T",
+                            NumMember = 19,
+                            SexId = 2,
+                            TeamId = 6
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "V",
+                            Name = "U",
+                            NumMember = 20,
+                            SexId = 1,
+                            TeamId = 7,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Adress = "Rue",
+                            LastName = "W",
+                            Name = "V",
+                            NumMember = 21,
+                            SexId = 1,
+                            TeamId = 7
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Adress = "Rue",
+                            LastName = "X",
+                            Name = "W",
+                            NumMember = 22,
+                            SexId = 2,
+                            TeamId = 7
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "Y",
+                            Name = "X",
+                            NumMember = 23,
+                            SexId = 1,
+                            TeamId = 8,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Adress = "Rue",
+                            LastName = "Z",
+                            Name = "Y",
+                            NumMember = 24,
+                            SexId = 1,
+                            TeamId = 8
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Adress = "Rue",
+                            LastName = "[",
+                            Name = "Z",
+                            NumMember = 25,
+                            SexId = 2,
+                            TeamId = 8
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "\\",
+                            Name = "[",
+                            NumMember = 26,
+                            SexId = 1,
+                            TeamId = 9,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Adress = "Rue",
+                            LastName = "]",
+                            Name = "\\",
+                            NumMember = 27,
+                            SexId = 1,
+                            TeamId = 9
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Adress = "Rue",
+                            LastName = "^",
+                            Name = "]",
+                            NumMember = 28,
+                            SexId = 2,
+                            TeamId = 9
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "_",
+                            Name = "^",
+                            NumMember = 29,
+                            SexId = 1,
+                            TeamId = 10,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Adress = "Rue",
+                            LastName = "`",
+                            Name = "_",
+                            NumMember = 30,
+                            SexId = 1,
+                            TeamId = 10
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Adress = "Rue",
+                            LastName = "a",
+                            Name = "`",
+                            NumMember = 31,
+                            SexId = 2,
+                            TeamId = 10
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "b",
+                            Name = "a",
+                            NumMember = 32,
+                            SexId = 1,
+                            TeamId = 11,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Adress = "Rue",
+                            LastName = "c",
+                            Name = "b",
+                            NumMember = 33,
+                            SexId = 1,
+                            TeamId = 11
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Adress = "Rue",
+                            LastName = "d",
+                            Name = "c",
+                            NumMember = 34,
+                            SexId = 2,
+                            TeamId = 11
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Adress = "Rue",
+                            Email = "a@hatmail.com",
+                            LastName = "e",
+                            Name = "d",
+                            NumMember = 35,
+                            SexId = 1,
+                            TeamId = 12,
+                            TelNumber = "03430 34"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Adress = "Rue",
+                            LastName = "f",
+                            Name = "e",
+                            NumMember = 36,
+                            SexId = 1,
+                            TeamId = 12
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Adress = "Rue",
+                            LastName = "g",
+                            Name = "f",
+                            NumMember = 37,
+                            SexId = 2,
+                            TeamId = 12
+                        });
+                });
+
+            modelBuilder.Entity("VolleyDamois.Models.Poule", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Poules");
                 });
 
             modelBuilder.Entity("VolleyDamois.Models.Sex", b =>
@@ -121,6 +901,38 @@ namespace VolleyDamois.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VolleyDamois.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("StateMatch")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("State");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StateMatch = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StateMatch = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StateMatch = 2
+                        });
+                });
+
             modelBuilder.Entity("VolleyDamois.Models.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -128,7 +940,10 @@ namespace VolleyDamois.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Pouleid")
                         .HasColumnType("int");
 
                     b.Property<string>("TeamName")
@@ -139,16 +954,175 @@ namespace VolleyDamois.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("Pouleid");
+
                     b.ToTable("Team");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            TeamName = "Equipe1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            TeamName = "Equipe2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            TeamName = "Equipe3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            TeamName = "Equipe4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            TeamName = "Equipe5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            TeamName = "Equipe6"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 1,
+                            TeamName = "Equipe7"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 1,
+                            TeamName = "Equipe8"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 1,
+                            TeamName = "Equipe9"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            TeamName = "Equipe10"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 1,
+                            TeamName = "Equipe11"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 1,
+                            TeamName = "Equipe12"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VolleyDamois.Models.Field", b =>
+                {
+                    b.HasOne("VolleyDamois.Models.Categories", "FieldCategory")
+                        .WithMany()
+                        .HasForeignKey("FieldCategoryId");
+                });
+
+            modelBuilder.Entity("VolleyDamois.Models.Match", b =>
+                {
+                    b.HasOne("VolleyDamois.Models.Team", "Arbitre")
+                        .WithMany()
+                        .HasForeignKey("ArbitreId");
+
+                    b.HasOne("VolleyDamois.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.HasOne("VolleyDamois.Models.Team", "Team1")
+                        .WithMany()
+                        .HasForeignKey("Team1Id");
+
+                    b.HasOne("VolleyDamois.Models.Team", "Team2")
+                        .WithMany()
+                        .HasForeignKey("Team2Id");
+
+                    b.HasOne("VolleyDamois.Models.Field", "Terrain")
+                        .WithMany()
+                        .HasForeignKey("TerrainId");
+
+                    b.HasOne("VolleyDamois.Models.Level", "level")
+                        .WithMany()
+                        .HasForeignKey("levelId");
                 });
 
             modelBuilder.Entity("VolleyDamois.Models.Player", b =>
                 {
                     b.HasOne("VolleyDamois.Models.Sex", "Sex")
                         .WithMany()
-                        .HasForeignKey("SexId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SexId");
 
                     b.HasOne("VolleyDamois.Models.Team", null)
                         .WithMany("Players")
@@ -159,9 +1133,11 @@ namespace VolleyDamois.Migrations
                 {
                     b.HasOne("VolleyDamois.Models.Categories", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("VolleyDamois.Models.Poule", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("Pouleid");
                 });
 #pragma warning restore 612, 618
         }

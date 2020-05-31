@@ -13,8 +13,6 @@ namespace VolleyDamois.Models
         public Team() { }
 
         public int Id { get; set; }
-
-        
         public Categories Category { get; set; }
 
         [Required]

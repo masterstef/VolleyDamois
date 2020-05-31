@@ -23,16 +23,43 @@ namespace VolleyDamois.Models
         [Required]
         public Sexe Sexe { get; set; }
     }
+
+    public class Level
+    {
+        public int Id { get; set; }
+        public LevelMatch LevelConfrotation { get; set; }
+    }
+
+    public class State
+    {
+        public int Id { get; set; }
+        public StateMatch StateMatch { get; set; }
+    }
+
+    public class Field
+    {
+        public int Id { get; set; }
+        public Categories FieldCategory { get; set; }
+    }
     public enum Sexe
     {
         homme,
         femme
     }
-    public enum Statut
+    public enum StateMatch
     {
         planned,
         inProgress,
         done,
+    }
+    public enum LevelMatch
+    {
+        Poule,
+        Seizième,
+        Huitième,
+        Quart,
+        Demi,
+        Final
     }
 
 }

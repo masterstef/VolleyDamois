@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200523134651_PoulesDataTest.cs" />
+    <Compile Remove="Migrations\20200523134651_PoulesDataTest.Designer.cs" />
+    <Compile Remove="Migrations\20200523141458_IdentityMigration.cs" />
+    <Compile Remove="Migrations\20200523141458_IdentityMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200525022554_MatchMigration.cs" />
+    <Compile Remove="Migrations\20200525022554_MatchMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200525132230_Data.cs" />
+    <Compile Remove="Migrations\20200525132230_Data.Designer.cs" />
+    <Compile Remove="Migrations\20200525133012_DataBase.cs" />
+    <Compile Remove="Migrations\20200525133012_DataBase.Designer.cs" />
+    <Compile Remove="Migrations\20200525142857_State-Fields-Levels.cs" />
+    <Compile Remove="Migrations\20200525142857_State-Fields-Levels.Designer.cs" />
+    <Compile Remove="Migrations\20200525182452_StarTime.cs" />
+    <Compile Remove="Migrations\20200525182452_StarTime.Designer.cs" />
+    <Compile Remove="Migrations\20200525182844_StarTime.cs" />
+    <Compile Remove="Migrations\20200525182844_StarTime.Designer.cs" />
+    <Compile Remove="Migrations\20200525183403_StarTime.cs" />
+    <Compile Remove="Migrations\20200525183403_StarTime.Designer.cs" />
+    <Compile Remove="Migrations\20200525183624_StarTime.cs" />
+    <Compile Remove="Migrations\20200525183624_StarTime.Designer.cs" />
     <Compile Remove="Models\Captain.cs" />
   </ItemGroup>
 
@@ -20,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
@@ -27,8 +51,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
 
 

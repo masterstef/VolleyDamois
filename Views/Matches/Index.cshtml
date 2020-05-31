@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model VolleyDamois.Models.ViewModelMatches
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<button class="btn-primary border-0 row float-right" onclick="printJS({
+    printable: 'pdf',
+    type: 'html',
+    documentTitle: title,
+    scanStyles: false,
+    style: 'td, th { border-style: solid; border-width: thin; text-align: center; } h4, table, { width: 40px}, .notBreak{page-break-inside: avoid;}'})">
+    <svg class="m-2" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 1h5v1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6h1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" />
+        <path d="M9 4.5V1l5 5h-3.5A1.5 1.5 0 0 1 9 4.5z" />
+        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+    </svg>
+</button>
+<div id="pdf">
+    <h1>Horaires</h1>
+
+    @{ int i = 1;
+
+        Dictionary<DateTime, List<Match>> rounds = Model.rounds;
+        List<DateTime> keys = rounds.Keys.ToList();
+        IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
+    }
+    <div><h1 class="text-center">Jour 1 - @keys[0].Date.GetDateTimeFormats(culture)[6]</h1></div>
+    <div class="container">
+        <div class="row">
+            @foreach (DateTime key in keys)
+            {
+                String state;
+                if (key.TimeOfDay < DateTime.Now.TimeOfDay)
+                {
+                    state = "Planifié";
+                }
+                else if (key.TimeOfDay == DateTime.Now.TimeOfDay)
+                {
+                    state = "En cours";
+                }
+                else
+                {
+                    state = "Terminé";
+                }
+                <div class="notBreak bg-dark text-white card shadow py-2 col col-5 m-3 p-3">
+                    <div><h2>Manche @i @key.TimeOfDay @state</h2></div>
+                    <div class="card-body">
+                        <table class=" table table-dark table-striped ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Terrain</th>
+                                    <th scope="col">Equipe 1</th>
+                                    <th scope="col">Equipe 2</th>
+                                    <th scope="col">Arbitre</th>
+                                </tr>
+                            </thead>
+                            @foreach (Match currentMatch in rounds[key])
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td scope="row">
+                                            @Html.DisplayFor(match => currentMatch.Terrain.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(match => currentMatch.Team1.TeamName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(match => currentMatch.Team2.TeamName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(match => currentMatch.Arbitre.TeamName)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+                i++;
+
+            }
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/print.min.js"></script>
+}
